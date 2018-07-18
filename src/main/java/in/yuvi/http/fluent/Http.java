@@ -461,7 +461,6 @@ public final class Http {
          *             if an error occurs while execution
          */
         public HttpResponse asResponse() throws IOException {
-            System.out.println("Entering Http.asResponse");
             if (client == null) {
                 throw new IllegalStateException("Please specify a HttpClient instance to use for this request.");
             }
@@ -470,7 +469,9 @@ public final class Http {
 
             StringBuffer requestString = new StringBuffer();
             requestString.append("HTTP Request: ")
-                         .append(request.toString());
+                         .append(request.getMethod())
+                         .append(" ")
+                         .append(request.getURI());
             
             for(Header header : request.getAllHeaders()) {
             	requestString.append(" ")
@@ -482,7 +483,17 @@ public final class Http {
             
             final HttpResponse response = client.execute(request);
 
-            System.out.println("HTTP Response: " + response.toString());
+            StringBuffer responseString = new StringBuffer();
+            responseString.append("HTTP Response: ")
+                          .append(response.getStatusLine().getStatusCode());
+            
+            for(Header header : response.getAllHeaders()) {
+            	responseString.append(" ")
+              	              .append(header.getName())
+	                          .append("=")
+            	              .append(header.getValue());
+            }
+            System.out.println(responseString);
             
             return response;
         }
