@@ -468,8 +468,22 @@ public final class Http {
 
             request = createFinalRequest();
 
+            StringBuffer requestString = new StringBuffer();
+            requestString.append("HTTP Request: ")
+                         .append(request.toString());
+            
+            for(Header header : request.getAllHeaders()) {
+            	requestString.append(" ")
+              	             .append(header.getName())
+	                         .append("=")
+            	             .append(header.getValue());
+            }
+            System.out.println(requestString);
+            
             final HttpResponse response = client.execute(request);
 
+            System.out.println("HTTP Response: " + response.toString());
+            
             return response;
         }
 
