@@ -461,6 +461,7 @@ public final class Http {
          *             if an error occurs while execution
          */
         public HttpResponse asResponse() throws IOException {
+            System.out.println("Entering Http.asResponse");
             if (client == null) {
                 throw new IllegalStateException("Please specify a HttpClient instance to use for this request.");
             }
