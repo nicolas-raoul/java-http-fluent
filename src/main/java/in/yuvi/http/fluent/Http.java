@@ -465,12 +465,17 @@ public final class Http {
             if (client == null) {
                 throw new IllegalStateException("Please specify a HttpClient instance to use for this request.");
             }
+            
+            long requestIdentifier;
+            synchronized(this) {
+            	requestIdentifier = requestsCounter++;
+            }
 
             request = createFinalRequest();
 
             StringBuffer requestString = new StringBuffer();
             requestString.append("HTTP Request (")
-                         .append(requestsCounter)
+                         .append(requestIdentifier)
                          .append("): ")
                          .append(request.getMethod())
                          .append(" ")
@@ -488,7 +493,7 @@ public final class Http {
 
             StringBuffer responseString = new StringBuffer();
             responseString.append("HTTP Response (")
-                          .append(requestsCounter)
+                          .append(requestIdentifier)
                           .append("): ")
                           .append(response.getStatusLine().getStatusCode());
             
@@ -500,7 +505,7 @@ public final class Http {
             }
             System.out.println(responseString);
             
-            requestsCounter++;
+            
             
             return response;
         }
