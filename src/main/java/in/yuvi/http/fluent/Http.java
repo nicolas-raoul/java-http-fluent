@@ -216,6 +216,7 @@ public final class Http {
         protected HttpUriRequest request;
         protected List<NameValuePair> data;
         protected ProgressListener sendProgressListener;
+        protected static long requestsCounter;
 
         /**
          * Creates a new builder object for the given URL.
@@ -468,7 +469,9 @@ public final class Http {
             request = createFinalRequest();
 
             StringBuffer requestString = new StringBuffer();
-            requestString.append("HTTP Request: ")
+            requestString.append("HTTP Request (")
+                         .append(requestsCounter)
+                         .append("): ")
                          .append(request.getMethod())
                          .append(" ")
                          .append(request.getURI());
@@ -484,7 +487,9 @@ public final class Http {
             final HttpResponse response = client.execute(request);
 
             StringBuffer responseString = new StringBuffer();
-            responseString.append("HTTP Response: ")
+            responseString.append("HTTP Response (")
+                          .append(requestsCounter)
+                          .append("): ")
                           .append(response.getStatusLine().getStatusCode());
             
             for(Header header : response.getAllHeaders()) {
@@ -494,6 +499,8 @@ public final class Http {
             	              .append(header.getValue());
             }
             System.out.println(responseString);
+            
+            requestsCounter++;
             
             return response;
         }
