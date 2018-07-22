@@ -500,8 +500,8 @@ public final class Http {
             for(Header header : response.getAllHeaders()) {
             	responseString.append(" ")
               	              .append(header.getName())
-	                          .append("=")
-            	              .append(header.getValue());
+              	              .append("=")
+              	              .append(header.getValue());
             }
             System.out.println(responseString);
             
